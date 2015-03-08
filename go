@@ -1,0 +1,1 @@
+mpicxx -o $1 $1.cpp | mpiexec -n 2 ./$1
