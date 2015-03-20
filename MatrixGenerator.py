@@ -34,9 +34,9 @@ t0 = time.clock()
 for i in xrange(n):
 	for j in xrange(n):
 		if j == i:
-			line[j] = maximum
+			line[j] = 1.0
 		else:
-			line[j] = int(random.uniform(0, n))
+			line[j] = random.uniform(0, n) / maximum
 	f_matrix.write(' '.join(str(x) for x in line))
 
 	if i != n - 1:
