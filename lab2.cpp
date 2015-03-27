@@ -77,6 +77,7 @@ int main(int argc, char** argv)
 
 	omp_set_num_threads(num_threads);
 
+	#pragma omp parallel
 	while (iteration < MAXITER && error > EPS)
 	{
 		error = 0.0;
@@ -99,7 +100,7 @@ int main(int argc, char** argv)
 			result[i] = prev[i] - THETA * result[i];
 		}
 
-		std::cerr << "Iteration " << iteration <<". Error = " << error << "\r\n";
+		//std::cerr << "Iteration " << iteration <<". Error = " << error << "\r\n";
 		swap(prev, result);
 		iteration++;
 	}

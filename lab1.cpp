@@ -101,7 +101,7 @@ void partialNextValue(double* xElements, double* localTemp, int localVectorSize)
 		localTemp[i] = xElements[i] - THETA * localTemp[i];
 }
 
-int te_main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	// Используются во всех узлах
 	int rank, size, taskSize;
@@ -124,7 +124,7 @@ int te_main(int argc, char** argv)
 	{
 		try
 		{
-			if (argc == 2 && sscanf_s(argv[1], "%d", &taskSize) == 1)
+			if (argc == 2 && sscanf(argv[1], "%d", &taskSize) == 1)
 			{
 				cerr << "root : generating matrix processed\r\n";
 				generate(matrix, vector, taskSize);
@@ -200,7 +200,7 @@ int te_main(int argc, char** argv)
 	{
 		if (rank == 0)
 		{
-			cerr << "Start iteration " << iteration << ". Error = " << error << "\r\n";
+			//cerr << "Start iteration " << iteration << ". Error = " << error << "\r\n";
 		}
 		// Найдем Ax(k)
 		MPI_Scatterv(result, countsVector, displsVector, MPI_DOUBLE, xElements, localVectorSize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
