@@ -7,7 +7,7 @@
 #include <conio.h>
 #include <iostream>
 #include <algorithm> 
-//#include <time.h>
+#include <time.h>
 #include <stdio.h>
 using namespace std;
 
@@ -76,7 +76,7 @@ int main(int argc, char * argv[])
 	float * prev = NULL;
 	float * current = NULL;
 	int* end;
-	//clock_t start;
+	clock_t start;
 	double duration;
 	
 	int* complete = new int[1];
@@ -92,13 +92,14 @@ int main(int argc, char * argv[])
 
 	cudaMemcpy(prev, F, SIZE * SIZE * sizeof (float), cudaMemcpyHostToDevice);
 	cudaMemcpy(current, F, SIZE * SIZE * sizeof (float), cudaMemcpyHostToDevice);
-	//start = clock();
-	cudaMemset(end, 0, 1);
+	start = clock();
+	
 	int iteration = 1;
 	do
 	{
+		cudaMemset(end, 0, 1);
 		kernel << <dim3(N / BLOCK_SIZE, N / BLOCK_SIZE, 1), dim3(BLOCK_SIZE, BLOCK_SIZE, 1) >> > (prev, current, end);
-		//cudaMemcpy(complete, end, sizeof (int), cudaMemcpyDeviceToHost);
+		cudaMemcpy(complete, end, sizeof (int), cudaMemcpyDeviceToHost);
 		swap(prev, current);
 		iteration++;
 
@@ -118,9 +119,9 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	//duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+	duration = (clock() - start) / (double)CLOCKS_PER_SEC;
 
-	//std::cout << "time: " << duration << '\n';
+	std::cout << "time: " << duration << '\n';
 	printf("Iterations = %d\nError = %f", iteration, maxError);
 	return 0;
 }
